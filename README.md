@@ -28,10 +28,30 @@
 
 ## 빠른 시작
 
-현재 초기 기획/백로그 정리 단계입니다.  
-실행 방법은 인프라/애플리케이션 뼈대가 구성되면 업데이트됩니다.
+### 1) 환경 변수 준비
 
-## 문서
+`.env.example`를 참고해서 `.env` 파일을 작성합니다.
 
-- 프로젝트 기획서: `rag-chatbot-project-plan.md`
-- 이슈 백로그: `github-issues-backlog.md`
+```env
+POSTGRES_USER=rag_user
+POSTGRES_PASSWORD=your_password
+POSTGRES_DB=rag_chatbot
+```
+
+### 2) DB 컨테이너 실행
+
+```bash
+docker compose up -d
+```
+
+### 3) pgvector extension 활성화
+
+```bash
+docker exec -it rag-postgres psql -U rag_user -d rag_chatbot
+```
+
+```sql
+CREATE EXTENSION IF NOT EXISTS vector;
+SELECT extname FROM pg_extension WHERE extname = 'vector';
+```
+
