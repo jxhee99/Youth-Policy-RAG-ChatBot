@@ -1,13 +1,11 @@
-## 🧾 ApiLog
+## 🧾 Youth-Policy RAG Chatbot
 
 ## ✏️ Summary
-<!-- EN: Briefly describe the purpose of this PR and what it changes. -->
-<!-- KR: PR 목적과 변경 사항을 간단히 적어주세요. -->
+<!--  PR 목적과 변경 사항을 간단히 적어주세요. -->
 <!-- Closes: #IssueNumber -->
 
 ## 📢 Motivation
-<!-- EN: Why is this change necessary? What problem does it solve? -->
-<!-- KR: 왜 필요한 변경인가요? 어떤 문제를 해결하나요? -->
+<!-- 왜 필요한 변경인가요? 어떤 문제를 해결하나요? -->
 
 ## 📌 Type of Change
 - [ ] ✨ New Feature / 새로운 기능
@@ -21,19 +19,12 @@
 - [ ] ♻️ Other / 기타 (설명)
 
 ## 🛠️ Implementation Details
-<!-- EN: Please describe the work in progress, Key design decisions, trade-offs, dependencies. -->
-<!-- KR: 핵심 설계 결정, 트레이드오프, 의존성 등 작업 사항을 적어주세요. -->
+<!-- 핵심 설계 결정, 트레이드오프, 의존성 등 작업 사항을 적어주세요. -->
 
 ## 🧪 Testing
-<!-- EN: How did you test? Steps or scenarios to reproduce. -->
-<!-- KR: 어떻게 테스트했는지, 재현/검증 절차를 적어주세요. -->
+<!-- 어떻게 테스트했는지, 재현/검증 절차를 적어주세요. -->
 
 ## 🖼️ Screenshots / Demos
-<!-- EN/KR: Attach screenshots, logs, or recordings if helpful. -->
-
-## 💬 Notes for Reviewers
-<!-- EN: Focus areas or questions for reviewers. -->
-<!-- KR: 리뷰어가 봐줬으면 하는 포인트/논의 사항. -->
 
 ## ✅ Checklist
 - [ ] Tests pass locally / 로컬 테스트 통과
