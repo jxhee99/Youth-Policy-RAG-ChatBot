@@ -55,3 +55,23 @@ CREATE EXTENSION IF NOT EXISTS vector;
 SELECT extname FROM pg_extension WHERE extname = 'vector';
 ```
 
+## 프로젝트 구조
+
+```text
+.
+├── .github/
+├── docs/
+│   ├── backlog/
+│   ├── planning/
+│   └── worklog/
+├── src/
+│   └── main/resources/db/migration/
+├── docker-compose.yml
+└── README.md
+```
+
+## 문서
+
+- 기획서: `docs/planning/rag-chatbot-project-plan.md`
+- 이슈 백로그: `docs/backlog/github-issues-backlog.md`
+- 작업 로그: `docs/worklog/WORKLOG.md`
