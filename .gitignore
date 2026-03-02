@@ -3,3 +3,14 @@
 
 # 문서
 /docs
+
+# gradle
+/.gradle
+/build
+*.class
+
+# local IDE / test artifacts
+/.idea
+/.vscode
+/test-files
+.DS_Store
