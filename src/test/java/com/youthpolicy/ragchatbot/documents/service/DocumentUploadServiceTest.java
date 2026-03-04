@@ -3,12 +3,17 @@ package com.youthpolicy.ragchatbot.documents.service;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import com.youthpolicy.ragchatbot.documents.dto.DocumentUploadResponse;
 import com.youthpolicy.ragchatbot.documents.error.DocumentValidationException;
+import com.youthpolicy.ragchatbot.documents.parser.PdfParser;
+import com.youthpolicy.ragchatbot.documents.parser.dto.ParsedPdfDocument;
+import com.youthpolicy.ragchatbot.documents.parser.dto.ParsedPdfPage;
 import com.youthpolicy.ragchatbot.documents.repository.DocumentRepository;
 import java.time.OffsetDateTime;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,6 +27,9 @@ class DocumentUploadServiceTest {
     @Mock
     private DocumentRepository documentRepository;
 
+    @Mock
+    private PdfParser pdfParser;
+
     @InjectMocks
     private DocumentUploadService documentUploadService;
 
@@ -32,6 +40,7 @@ class DocumentUploadServiceTest {
         assertThatThrownBy(() -> documentUploadService.upload(file))
                 .isInstanceOf(DocumentValidationException.class)
                 .hasMessageContaining("빈 파일");
+        verifyNoInteractions(pdfParser, documentRepository);
     }
 
     @Test
@@ -41,6 +50,7 @@ class DocumentUploadServiceTest {
         assertThatThrownBy(() -> documentUploadService.upload(file))
                 .isInstanceOf(DocumentValidationException.class)
                 .hasMessageContaining("지원하지 않는 파일 형식");
+        verifyNoInteractions(pdfParser, documentRepository);
     }
 
     @Test
@@ -58,9 +68,16 @@ class DocumentUploadServiceTest {
         );
         when(documentRepository.insertUploadedDocument(eq("policy-guide"), eq("policy-guide.pdf"), eq("application/pdf")))
                 .thenReturn(response);
+        when(pdfParser.parse(file)).thenReturn(new ParsedPdfDocument(
+                "policy-guide.pdf",
+                1,
+                List.of(new ParsedPdfPage(1, "content")),
+                "content"
+        ));
 
         documentUploadService.upload(file);
 
+        verify(pdfParser).parse(file);
         verify(documentRepository).insertUploadedDocument(eq("policy-guide"), eq("policy-guide.pdf"), eq("application/pdf"));
     }
 
@@ -88,6 +105,7 @@ class DocumentUploadServiceTest {
 
         documentUploadService.upload(file);
 
+        verifyNoInteractions(pdfParser);
         verify(documentRepository).insertUploadedDocument(eq("youth-policy"), eq("youth-policy.docx"), eq(expectedContentType));
     }
 }

@@ -1,6 +1,7 @@
 package com.youthpolicy.ragchatbot.common.error;
 
 import com.youthpolicy.ragchatbot.documents.error.DocumentValidationException;
+import com.youthpolicy.ragchatbot.documents.parser.error.PdfParsingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -14,6 +15,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DocumentValidationException.class)
     public ResponseEntity<ApiErrorResponse> handleDocumentValidation(DocumentValidationException ex) {
         return ResponseEntity.badRequest().body(ApiErrorResponse.of(ex.getCode(), ex.getMessage()));
+    }
+
+    @ExceptionHandler(PdfParsingException.class)
+    public ResponseEntity<ApiErrorResponse> handlePdfParsing(PdfParsingException ex) {
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .body(ApiErrorResponse.of(ex.getCode(), ex.getMessage()));
     }
 
     @ExceptionHandler({MissingServletRequestPartException.class, MissingServletRequestParameterException.class})
