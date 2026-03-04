@@ -23,6 +23,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.flywaydb:flyway-database-postgresql'
+    // Apache PDFBox: Java에서 PDF 파일을 읽고 텍스트를 추출할 수 있게 해주는 라이브러리
+    implementation 'org.apache.pdfbox:pdfbox:3.0.3'
     runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

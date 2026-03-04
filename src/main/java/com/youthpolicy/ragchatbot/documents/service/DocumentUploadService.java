@@ -2,15 +2,20 @@ package com.youthpolicy.ragchatbot.documents.service;
 
 import com.youthpolicy.ragchatbot.documents.dto.DocumentUploadResponse;
 import com.youthpolicy.ragchatbot.documents.error.DocumentValidationException;
+import com.youthpolicy.ragchatbot.documents.parser.PdfParser;
 import com.youthpolicy.ragchatbot.documents.repository.DocumentRepository;
 import java.util.Locale;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class DocumentUploadService implements DocumentService {
+
+    private static final Logger log = LoggerFactory.getLogger(DocumentUploadService.class);
 
     // 업로드 허용 확장자와 DB에 저장할 표준 Content-Type 매핑
     private static final Map<String, String> ALLOWED_EXTENSIONS = Map.of(
@@ -21,9 +26,11 @@ public class DocumentUploadService implements DocumentService {
     );
 
     private final DocumentRepository documentRepository;
+    private final PdfParser pdfParser;
 
-    public DocumentUploadService(DocumentRepository documentRepository) {
+    public DocumentUploadService(DocumentRepository documentRepository, PdfParser pdfParser) {
         this.documentRepository = documentRepository;
+        this.pdfParser = pdfParser;
     }
 
     @Override
@@ -35,6 +42,10 @@ public class DocumentUploadService implements DocumentService {
         String extension = getExtension(originalFilename);
         String contentType = ALLOWED_EXTENSIONS.get(extension);
         String title = extractTitle(originalFilename);
+        if ("pdf".equals(extension)) {
+            var parsed = pdfParser.parse(file);
+            log.info("Upload PDF parsed. file={}, pages={}", parsed.filename(), parsed.totalPages());
+        }
         // 3) 문서 메타데이터 저장 (실제 파일 저장/파싱은 다음 단계에서 처리)
         return documentRepository.insertUploadedDocument(title, originalFilename, contentType);
     }
